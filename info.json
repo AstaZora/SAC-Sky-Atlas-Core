@@ -6,7 +6,7 @@
     "title": "Sky Atlas Core Components and Scripts",
     "author": "AstaZora",
     "homepage": "",
-    "description": "Core components and scripts for Sky Atlas modpack.",
+    "description": "Sky Atlas Core",
     "dependencies": [
         "base >= 1.0.0"
       ]
