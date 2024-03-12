@@ -1,0 +1,13 @@
+{
+    "name": "SAC-Sky-Atlas-Core",
+    "version": "0.0.01",
+    "factorio_version": "1.1",
+    "date": "2024-3-11", 
+    "title": "Sky Atlas Core Components and Scripts",
+    "author": "AstaZora",
+    "homepage": "",
+    "description": "Core components and scripts for Sky Atlas modpack.",
+    "dependencies": [
+        "base >= 1.0.0"
+      ]
+}
