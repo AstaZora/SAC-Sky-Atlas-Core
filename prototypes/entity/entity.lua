@@ -24,3 +24,8 @@ data:extend({mcvSpiderRemote})
 "Drill Site,"
 "Resource Outpost,"
 "Expeditionary Mining Rig"]]
+
+local starport = table.deepcopy(data.raw["rocket-silo"]["rocket-silo"])
+starport.name = "starport"
+-- Modify other properties of the starport as needed
+data:extend({starport})
