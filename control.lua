@@ -8,10 +8,6 @@ local blueprintStrings = {
 global.kit_to_blueprint = {
     ["energy-defense-kit"] = blueprintStrings.energyDefenseKit,
     ["aquaculture-kit"] = blueprintStrings.aquacultureKit,
-    ["hydroponics-kit"] = blueprintStrings.hydroponicsKit,
-    ["greenhouse-kit"] = blueprintStrings.greenhouseKit,
-    ["farm-kit"] = blueprintStrings.farmKit,
-    ["orchard-kit"] = blueprintStrings.orchardKit,
 }
 script.on_init(function()
     global.active_blueprint_index = 1 -- Start with the first blueprint as active
@@ -161,26 +157,36 @@ end
 function convert_and_deploy_kit_from_mcv(mcv)
     game.print("convert_and_deploy_kit_from_mcv function called")
     local inventory = mcv.get_inventory(defines.inventory.spider_trunk)
-    for kitName, _ in pairs(global.kit_to_blueprint) do
-        if inventory.get_item_count(kitName) > 0 then
+
+    -- Debugging: print out all items in the inventory
+    for i = 1, #inventory do
+        local stack = inventory[i]
+        if stack.valid_for_read then
+            game.print("Inventory slot " .. i .. ": " .. stack.name)
+        end
+    end
+
+    for kitName, blueprintString in pairs(global.kit_to_blueprint) do
+        game.print("Checking for kit: " .. kitName)
+        local count = inventory.get_item_count(kitName)
+        game.print("Count for " .. kitName .. ": " .. count)
+        if count > 0 then
+            game.print("Found kit: " .. kitName)
             inventory.remove({name = kitName, count = 1})  -- Remove the kit from the inventory.
-            local blueprintString = global.kit_to_blueprint[kitName]
-            if blueprintString then
-                -- Import the blueprint string directly to the MCV's inventory.
-                local importSuccess = import_blueprint_to_mcv(blueprintString, mcv)
-                if importSuccess then
-                    -- Deploy the blueprint/book from the MCV's inventory.
-                    deploy_imported_blueprint_from_mcv(mcv)
-                else
-                    game.print("Error importing blueprint/book for " .. kitName)
-                end
+            local importSuccess = import_blueprint_to_mcv(blueprintString, mcv)
+            if importSuccess then
+                deploy_imported_blueprint_from_mcv(mcv)
             else
-                game.print("Blueprint/book string not found for kit: " .. kitName)
+                game.print("Error importing blueprint/book for " .. kitName)
+                inventory.insert({name = kitName, count = 1})
             end
-            break  -- Process only one kit at a time for simplicity.
+            -- Remove break if you want to continue checking other slots after finding a kit.
+            break
         end
     end
 end
+
+
 
 function deploy_blueprint_from_book(blueprint_string, mcv)
     game.print("deploy_blueprint_from_book function called")
