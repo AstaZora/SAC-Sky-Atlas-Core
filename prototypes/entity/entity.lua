@@ -27,5 +27,8 @@ data:extend({mcvSpiderRemote})
 
 local starport = table.deepcopy(data.raw["rocket-silo"]["rocket-silo"])
 starport.name = "starport"
--- Modify other properties of the starport as needed
+starport.minable.result = "starport"  -- Ensure that mining the starport yields the correct item.
+starport.fixed_recipe = nil  -- Remove the fixed recipe limitation.
+starport.crafting_categories = {"starport-recipes"}
+
 data:extend({starport})
