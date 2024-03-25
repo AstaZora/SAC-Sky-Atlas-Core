@@ -37,6 +37,13 @@ script.on_event(defines.events.on_player_joined_game, function(event)
     create_buttons(player)
     game.print("Player joined game")
 end)
+commands.add_command("create_buttons", "Create the MCV buttons", function(command)
+    local player = game.get_player(command.player_index)
+    if player then
+        create_buttons(player)
+        game.print("Buttons created")
+    end
+end)
 
 script.on_event(defines.events.on_gui_click, function(event)
     if event.element.name == "deploy_mcv_button" then
